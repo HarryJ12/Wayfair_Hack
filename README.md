@@ -408,6 +408,9 @@ unless explicitly coordinating first. That keeps merge conflicts small.
 
 ## Two-Hour Build Order
 
+Demo script:
+- Use [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) for the 60-second recording flow.
+
 ### Before the event
 
 1. Get `SUBCONSCIOUS_API_KEY`.
