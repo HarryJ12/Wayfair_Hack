@@ -13,7 +13,7 @@ Show that Shop Council makes Wayfair shopping feel safer, more guided, and more 
 - Say: "Buying furniture online is scary because you do not know if it is real, if it fits, or if delivery and assembly will be painful."
 
 8-18 seconds:
-- Select `Tiny Apartment Sofa`.
+- Select `Wayfair Blue Sofa Page` (the default scenario).
 - Say: "Shop Council turns that anxiety into a five-person boardroom: style, luxury, budget, logistics, and trust."
 
 18-30 seconds:
@@ -35,13 +35,19 @@ Show that Shop Council makes Wayfair shopping feel safer, more guided, and more 
 
 ## Best Scenario To Record
 
-Use `Tiny Apartment Sofa`.
+Use `Wayfair Blue Sofa Page` (the default).
 
 Why:
-- Fit anxiety is obvious.
-- Dimensions and delivery matter.
-- Premium vs budget conflict is easy to understand.
-- Wayfair's View in Room angle makes immediate sense.
+- Directly mirrors a real Wayfair results page, which lands at Wayfair HQ.
+- Live debate runs ~14 turns vs ~7 for the others, so the boardroom feels fuller on camera.
+- Price spread ($529 → $879 → $1,399) gives Budget Hawk and Luxe Curator clear, opposing roles.
+- Hits all four core fears explicitly: real / scam, fit, delivery, assembly.
+
+Backup scenario: `Tiny Apartment Sofa`. Use it if the blue-sofa run feels off-topic for the judges. The apartment-fit anxiety is more universally relatable and the Lennox option is explicitly over budget, which gives Budget Hawk natural ammunition.
+
+## Live Latency Note
+
+Verified end-to-end: live Anthropic calls return in 35-46 seconds per scenario. Pre-warm the API once before recording (one throwaway `Run Council` click) so the bundle and provider connection are hot. If the live call still feels too long on the recording, kill `ANTHROPIC_API_KEY` in `.env.local` for the take — the fallback path is instant and produces a complete debate.
 
 ## Backup Lines
 
