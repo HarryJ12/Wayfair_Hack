@@ -59,7 +59,7 @@ export type CouncilRequest = z.infer<typeof CouncilRequestSchema>;
 export type CouncilResponse = z.infer<typeof CouncilResponseSchema>;
 
 export type CouncilApiResponse = {
-  source: "subconscious" | "openai" | "fallback";
+  source: "subconscious" | "anthropic" | "openai" | "fallback";
   council: CouncilResponse;
   note?: string;
 };

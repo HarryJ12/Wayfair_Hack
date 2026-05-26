@@ -1,3 +1,4 @@
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { buildFallbackCouncil } from "@/lib/council/fallback";
@@ -19,11 +20,20 @@ export async function POST(request: Request) {
   const scenario = getScenario(requestData.scenarioId);
   const fallback = buildFallbackCouncil(scenario);
   const openaiModelId = process.env.OPENAI_MODEL;
+  const anthropicModelId =
+    process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-20250514";
   const modelConfig = process.env.SUBCONSCIOUS_API_KEY
     ? {
         source: "subconscious" as const,
         model: subconsciousModel,
       }
+    : process.env.ANTHROPIC_API_KEY
+      ? {
+          source: "anthropic" as const,
+          model: createAnthropic({
+            apiKey: process.env.ANTHROPIC_API_KEY,
+          })(anthropicModelId),
+        }
     : process.env.OPENAI_API_KEY && openaiModelId
       ? {
           source: "openai" as const,
@@ -59,8 +69,8 @@ export async function POST(request: Request) {
       council: fallback,
       note:
         error instanceof Error
-          ? `Subconscious call failed: ${error.message}`
-          : "Subconscious call failed. Returned curated fallback debate.",
+          ? `Live model call failed: ${error.message}`
+          : "Live model call failed. Returned curated fallback debate.",
     } satisfies CouncilApiResponse);
   }
 }

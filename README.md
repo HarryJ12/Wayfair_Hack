@@ -193,6 +193,7 @@ Required:
 
 Optional, only if sponsors provide them or the MVP is already working:
 - `SUBCONSCIOUS_API_KEY` - optional sponsor-stack live model.
+- `ANTHROPIC_API_KEY` and optional `ANTHROPIC_MODEL` - recommended live LLM brain if we use Claude.
 - `OPENAI_API_KEY` and `OPENAI_MODEL` - optional live model fallback if we do not get Subconscious access.
 - `CLOUDFLARE_API_TOKEN` - only for Cloudflare deploy/browser tooling stretch.
 - `CLOUDFLARE_ACCOUNT_ID` - only for Cloudflare deploy/browser tooling stretch.
@@ -505,6 +506,8 @@ Open `http://localhost:3000`.
 
 # Optional live model:
 SUBCONSCIOUS_API_KEY=...
+ANTHROPIC_API_KEY=...
+ANTHROPIC_MODEL=claude-sonnet-4-20250514
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
 

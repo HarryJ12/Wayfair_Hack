@@ -150,9 +150,11 @@ export function CouncilApp() {
             <p className="mt-1 text-sm leading-6 text-zinc-300">
               {response?.source === "subconscious"
                 ? "Subconscious"
+                : response?.source === "anthropic"
+                  ? "Claude"
                 : response?.source === "openai"
                   ? "OpenAI"
-                : response?.source === "fallback"
+                  : response?.source === "fallback"
                   ? "Fallback"
                   : "Ready"}
             </p>

@@ -38,7 +38,7 @@ Do not remove these five roles without human approval. The product story depends
 
 No key is required for the MVP. The app must work with curated fallback data.
 
-Optional keys: `SUBCONSCIOUS_API_KEY`, `OPENAI_API_KEY` plus `OPENAI_MODEL`, `ELEVENLABS_API_KEY`, Cloudflare account/token, Baseten direct key or gateway URL, official Wayfair product API key. Do not add optional integrations until fallback and core UI are working.
+Optional keys: `SUBCONSCIOUS_API_KEY`, `ANTHROPIC_API_KEY` plus optional `ANTHROPIC_MODEL`, `OPENAI_API_KEY` plus `OPENAI_MODEL`, `ELEVENLABS_API_KEY`, Cloudflare account/token, Baseten direct key or gateway URL, official Wayfair product API key. Do not add optional integrations until fallback and core UI are working.
 
 ## Target File Structure
 
