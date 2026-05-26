@@ -162,10 +162,10 @@ export function CouncilApp() {
         </div>
       </section>
 
-      {response?.note && (
+      {(response?.note || response?.urlNote) && (
         <div className="border-b border-amber-500/30 bg-amber-500/10">
           <div className="mx-auto max-w-7xl px-4 py-2 text-sm text-amber-200">
-            {response.note}
+            {[response.note, response.urlNote].filter(Boolean).join(" ")}
           </div>
         </div>
       )}

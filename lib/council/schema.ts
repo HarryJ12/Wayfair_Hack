@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const CouncilRequestSchema = z.object({
   scenarioId: z.string().optional(),
-  url: z.string().url().optional().or(z.literal("")),
+  url: z.string().optional(),
 });
 
 export const CouncilProductSchema = z.object({
@@ -62,4 +62,5 @@ export type CouncilApiResponse = {
   source: "subconscious" | "anthropic" | "openai" | "fallback";
   council: CouncilResponse;
   note?: string;
+  urlNote?: string;
 };

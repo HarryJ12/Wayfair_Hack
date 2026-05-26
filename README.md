@@ -24,6 +24,14 @@ Already created:
 
 The app should run even without an API key because `/api/council` returns fallback JSON when no live model key is configured.
 
+Latest backend behavior:
+- Claude is the preferred live LLM brain when `ANTHROPIC_API_KEY` is set.
+- Subconscious still works when `SUBCONSCIOUS_API_KEY` is set.
+- OpenAI works only when both `OPENAI_API_KEY` and `OPENAI_MODEL` are set.
+- `COUNCIL_MODEL_PROVIDER` can force `anthropic`, `subconscious`, or `openai`.
+- If a pasted URL contains words like `sofa`, `desk`, `office`, `dining`, or `table`, the API maps it to the closest curated scenario.
+- If URL mapping or live LLM fails, fallback mode still returns a complete debate.
+
 ## Exact Starter Repo Decision
 
 Use `subconscious-systems/hack-webapp-starter` as the primary repo.
@@ -510,6 +518,7 @@ ANTHROPIC_API_KEY=...
 ANTHROPIC_MODEL=claude-sonnet-4-20250514
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
+COUNCIL_MODEL_PROVIDER=anthropic
 
 # Optional voice stretch:
 ELEVENLABS_API_KEY=...

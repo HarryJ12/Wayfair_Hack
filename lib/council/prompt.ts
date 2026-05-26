@@ -1,6 +1,10 @@
 import type { CouncilScenario } from "./scenarios";
 
-export function buildCouncilPrompt(scenario: CouncilScenario, url?: string) {
+export function buildCouncilPrompt(
+  scenario: CouncilScenario,
+  url?: string,
+  urlNote?: string,
+) {
   return `You are the orchestrator for Shop Council, a Wayfair hackathon demo.
 
 Create a lively but useful council debate about furniture choices. The council must guide the shopper through the exact fears that make furniture buying hard online: is this real, is this a scam, will it fit my room, will delivery work, and will assembly be painful?
@@ -18,11 +22,16 @@ Rules:
 - Keep each debate turn under 34 words.
 - Make the verdict decisive.
 - Use the provided products and do not invent new products.
+- Copy product IDs exactly.
+- Product outputs must include dimensions, delivery, assembly, fitCheck, reviewSummary, imageUrl, wayfairSignals, and trustSignals.
 - If a URL is provided, mention it only as shopper context. Do not depend on scraping it.
 
 Scenario:
 ${JSON.stringify(scenario, null, 2)}
 
 URL context:
-${url || "No live URL provided. Use curated scenario data."}`;
+${url || "No live URL provided. Use curated scenario data."}
+
+URL fallback note:
+${urlNote || "No URL mapping needed."}`;
 }
