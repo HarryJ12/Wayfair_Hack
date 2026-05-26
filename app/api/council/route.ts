@@ -2,6 +2,7 @@ import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { buildFallbackCouncil } from "@/lib/council/fallback";
+import { normalizeCouncilResponse } from "@/lib/council/normalize";
 import { buildCouncilPrompt } from "@/lib/council/prompt";
 import { getScenario } from "@/lib/council/scenarios";
 import {
@@ -68,7 +69,7 @@ export async function POST(request: Request) {
 
     return Response.json({
       source: modelConfig.source,
-      council: result.object,
+      council: normalizeCouncilResponse(result.object, fallback),
       urlNote: urlIngest?.note,
     } satisfies CouncilApiResponse);
   } catch (error) {
