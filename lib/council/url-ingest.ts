@@ -1,5 +1,8 @@
 import { DEFAULT_SCENARIO_ID } from "./scenarios";
 
+export const DEMO_WAYFAIR_URL =
+  "https://www.wayfair.com/furniture/sb1/blue-sofas-c413892-a2471~5246.html?redir=blue+sofa&rtype=9";
+
 export type UrlIngestResult = {
   scenarioId: string;
   extractedTitle?: string;
@@ -27,6 +30,13 @@ export async function ingestWayfairUrl(url: string): Promise<UrlIngestResult> {
       };
     }
 
+    if (text.includes("blue") && (text.includes("sofa") || text.includes("sofas"))) {
+      return {
+        scenarioId: "wayfair-blue-sofa-page",
+        note: "Demo mode: using curated JSON for the Wayfair blue sofa page instead of scraping live results.",
+      };
+    }
+
     if (text.includes("dining") || text.includes("table")) {
       return {
         scenarioId: "family-dining-table",
@@ -36,8 +46,8 @@ export async function ingestWayfairUrl(url: string): Promise<UrlIngestResult> {
 
     if (text.includes("sofa") || text.includes("couch") || text.includes("sectional")) {
       return {
-        scenarioId: "tiny-apartment-sofa",
-        note: "URL looked like a sofa product. Mapped to curated sofa scenario.",
+        scenarioId: "wayfair-blue-sofa-page",
+        note: "Demo mode: URL looked like a sofa page, so using curated Wayfair sofa JSON instead of scraping live results.",
       };
     }
 

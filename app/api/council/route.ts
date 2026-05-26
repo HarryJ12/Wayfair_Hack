@@ -1,7 +1,6 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { createOpenAI } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { buildFallbackCouncil } from "@/lib/council/fallback";
+import { getCouncilModelConfig } from "@/lib/council/model";
 import { normalizeCouncilResponse } from "@/lib/council/normalize";
 import { buildCouncilPrompt } from "@/lib/council/prompt";
 import { getScenario } from "@/lib/council/scenarios";
@@ -11,7 +10,6 @@ import {
   type CouncilApiResponse,
 } from "@/lib/council/schema";
 import { ingestWayfairUrl } from "@/lib/council/url-ingest";
-import { subconsciousModel } from "@/lib/subconscious";
 
 export const maxDuration = 60;
 
@@ -23,32 +21,7 @@ export async function POST(request: Request) {
   const urlIngest = url ? await ingestWayfairUrl(url) : null;
   const scenario = getScenario(urlIngest?.scenarioId ?? requestData.scenarioId);
   const fallback = buildFallbackCouncil(scenario);
-  const openaiModelId = process.env.OPENAI_MODEL;
-  const anthropicModelId =
-    process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-5-20250929";
-  const providerPreference = process.env.COUNCIL_MODEL_PROVIDER;
-  const modelConfig = process.env.ANTHROPIC_API_KEY &&
-    (!providerPreference || providerPreference === "anthropic")
-      ? {
-          source: "anthropic" as const,
-          model: createAnthropic({
-            apiKey: process.env.ANTHROPIC_API_KEY,
-          })(anthropicModelId),
-        }
-    : process.env.SUBCONSCIOUS_API_KEY &&
-        (!providerPreference || providerPreference === "subconscious")
-      ? {
-          source: "subconscious" as const,
-          model: subconsciousModel,
-        }
-    : process.env.OPENAI_API_KEY && openaiModelId
-      ? {
-          source: "openai" as const,
-          model: createOpenAI({
-            apiKey: process.env.OPENAI_API_KEY,
-          }).chat(openaiModelId),
-        }
-      : null;
+  const modelConfig = getCouncilModelConfig();
 
   if (!modelConfig) {
     return Response.json({

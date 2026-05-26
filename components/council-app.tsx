@@ -9,14 +9,21 @@ import {
   getScenario,
   scenarios,
 } from "@/lib/council/scenarios";
-import type { CouncilApiResponse, CouncilResponse } from "@/lib/council/schema";
+import { DEMO_WAYFAIR_URL } from "@/lib/council/url-ingest";
+import type {
+  CouncilApiResponse,
+  CouncilChimeApiResponse,
+  CouncilResponse,
+} from "@/lib/council/schema";
 
 export function CouncilApp() {
   const [scenarioId, setScenarioId] = useState(DEFAULT_SCENARIO_ID);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(DEMO_WAYFAIR_URL);
   const [response, setResponse] = useState<CouncilApiResponse | null>(null);
   const [activeTurnIndex, setActiveTurnIndex] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [chimeText, setChimeText] = useState("");
+  const [isChiming, setIsChiming] = useState(false);
   const [autoPlay, setAutoPlay] = useState(true);
   const [voiceOn, setVoiceOn] = useState(false);
 
@@ -39,6 +46,40 @@ export function CouncilApp() {
       setResponse(null);
     } finally {
       setIsRunning(false);
+    }
+  }
+
+  async function chimeIn(event: React.FormEvent) {
+    event.preventDefault();
+    const message = chimeText.trim();
+    if (!message || !council || isChiming) return;
+
+    setIsChiming(true);
+    setAutoPlay(false);
+
+    try {
+      const result = await fetch("/api/council/chime", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, scenarioId, council }),
+      });
+      const data = (await result.json()) as CouncilChimeApiResponse;
+      const nextCouncil: CouncilResponse = {
+        ...council,
+        debateTurns: [...council.debateTurns, ...data.chime.debateTurns],
+        verdict: data.chime.verdict ?? council.verdict,
+      };
+
+      setResponse({
+        source: data.source,
+        council: nextCouncil,
+        note: data.note ?? data.chime.note,
+        urlNote: response?.urlNote,
+      });
+      setActiveTurnIndex(council.debateTurns.length);
+      setChimeText("");
+    } finally {
+      setIsChiming(false);
     }
   }
 
@@ -84,7 +125,7 @@ export function CouncilApp() {
             <input
               value={url}
               onChange={(event) => setUrl(event.target.value)}
-              placeholder="Optional Wayfair URL"
+              placeholder="Demo Wayfair URL"
               className="h-10 w-full rounded-md border border-zinc-800 bg-zinc-950 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-[#ff5c28] sm:w-72"
             />
             <button
@@ -136,13 +177,15 @@ export function CouncilApp() {
           <div className="md:col-span-2">
             <p className="text-xs uppercase text-zinc-500">Shopper goal</p>
             <p className="mt-1 text-sm leading-6 text-zinc-300">
-              {selectedScenario.shopperGoal}
+              {council?.scenario.shopperGoal ?? selectedScenario.shopperGoal}
             </p>
           </div>
           <div>
             <p className="text-xs uppercase text-zinc-500">Constraints</p>
             <p className="mt-1 text-sm leading-6 text-zinc-300">
-              {selectedScenario.constraints.slice(0, 2).join(" / ")}
+              {(council?.scenario.constraints ?? selectedScenario.constraints)
+                .slice(0, 2)
+                .join(" / ")}
             </p>
           </div>
           <div>
@@ -171,6 +214,37 @@ export function CouncilApp() {
       )}
 
       <CouncilBoard council={council} activeTurnIndex={activeTurnIndex} />
+      {council && (
+        <section className="border-b border-zinc-800 bg-black">
+          <form
+            onSubmit={chimeIn}
+            className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-4 md:flex-row md:items-center"
+          >
+            <div className="md:w-56">
+              <p className="text-xs font-semibold uppercase text-[#ff5c28]">
+                Chime in
+              </p>
+              <p className="mt-1 text-xs text-zinc-500">
+                Interrupt the council.
+              </p>
+            </div>
+            <input
+              value={chimeText}
+              onChange={(event) => setChimeText(event.target.value)}
+              placeholder="Try: I have a narrow staircase, is this real, or that feels too expensive..."
+              className="h-11 flex-1 rounded-md border border-zinc-800 bg-zinc-950 px-3 text-sm text-white outline-none placeholder:text-zinc-600 focus:border-[#ff5c28]"
+              disabled={isChiming}
+            />
+            <button
+              type="submit"
+              disabled={!chimeText.trim() || isChiming}
+              className="h-11 rounded-md bg-white px-4 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {isChiming ? "Council responding" : "Interrupt"}
+            </button>
+          </form>
+        </section>
+      )}
       <VerdictPanel council={council} />
     </div>
   );

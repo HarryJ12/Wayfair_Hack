@@ -1,4 +1,5 @@
 import type { CouncilScenario } from "./scenarios";
+import type { CouncilResponse } from "./schema";
 
 export function buildCouncilPrompt(
   scenario: CouncilScenario,
@@ -34,4 +35,27 @@ ${url || "No live URL provided. Use curated scenario data."}
 
 URL fallback note:
 ${urlNote || "No URL mapping needed."}`;
+}
+
+export function buildChimePrompt(council: CouncilResponse, message: string) {
+  return `You are continuing a live Shop Council debate.
+
+The shopper interrupted the council with this message:
+"${message}"
+
+Respond as the agents, not as a generic assistant.
+
+Rules:
+- Return only structured data matching the requested schema.
+- Produce 3 to 5 new debate turns.
+- Use only these agent IDs: ${council.agents.map((agent) => agent.id).join(", ")}.
+- Use only these product IDs: ${council.products.map((product) => product.id).join(", ")}.
+- Each turn must directly respond to the shopper's interruption.
+- Keep the Wayfair confidence angle alive: dimensions, View in Room, delivery, assembly, reviews, badges, real/not-scam concerns.
+- Let agents disagree. Budget should defend value, Luxe should defend premium, Logistics should verify fit, Review & Trust should verify legitimacy.
+- Keep each turn under 34 words.
+- Include an updated verdict only if the shopper's message should change the recommendation.
+
+Current council:
+${JSON.stringify(council, null, 2)}`;
 }

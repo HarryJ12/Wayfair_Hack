@@ -1,5 +1,5 @@
 import type { CouncilScenario } from "./scenarios";
-import type { CouncilResponse } from "./schema";
+import type { CouncilChime, CouncilResponse } from "./schema";
 
 const agents: CouncilResponse["agents"] = [
   {
@@ -140,5 +140,74 @@ export function buildFallbackCouncil(scenario: CouncilScenario): CouncilResponse
       ],
       confidence: 86,
     },
+  };
+}
+
+export function buildFallbackChime(
+  council: CouncilResponse,
+  message: string,
+): CouncilChime {
+  const normalized = message.toLowerCase();
+  const winner =
+    council.products.find(
+      (product) => product.id === council.verdict.winnerProductId,
+    ) ?? council.products[0];
+  const budgetPick =
+    council.products.reduce((lowest, product) =>
+      product.price < lowest.price ? product : lowest,
+    ) ?? winner;
+  const premiumPick =
+    council.products.reduce((highest, product) =>
+      product.price > highest.price ? product : highest,
+    ) ?? winner;
+
+  const focus = normalized.includes("scam") || normalized.includes("real")
+    ? "trust"
+    : normalized.includes("fit") || normalized.includes("dimension")
+      ? "fit"
+      : normalized.includes("cheap") ||
+          normalized.includes("budget") ||
+          normalized.includes("expensive")
+        ? "budget"
+        : "general";
+
+  const opener =
+    focus === "trust"
+      ? `Good interruption. The scam check is exactly why Wayfair signals matter: reviews, badges, photos, and product details lower the trust risk.`
+      : focus === "fit"
+        ? `Good interruption. Fit comes before taste: ${winner.dimensions}, plus room visualization, is the decision gate.`
+        : focus === "budget"
+          ? `Good interruption. If price is the priority, ${budgetPick.name} has to defend itself against ${winner.name}.`
+          : `Good interruption. The council should respond to your priority, not just finish its own speech.`;
+
+  return {
+    debateTurns: [
+      {
+        agentId: "review-analyst",
+        targetProductId: winner.id,
+        emotion: focus === "trust" ? "confident" : "concerned",
+        text: opener,
+      },
+      {
+        agentId: "budget-hawk",
+        targetProductId: budgetPick.id,
+        emotion: "skeptical",
+        text: `Dex recalculates: ${budgetPick.name} is the low-end pressure test at $${budgetPick.price}, but cheaper only wins if it still passes fit and trust.`,
+      },
+      {
+        agentId: "luxe-curator",
+        targetProductId: premiumPick.id,
+        emotion: "excited",
+        text: `Vivian still wants the premium feeling from ${premiumPick.name}, but luxury cannot ignore delivery, assembly, or room clearance.`,
+      },
+      {
+        agentId: "logistics-lead",
+        targetProductId: winner.id,
+        emotion: "confident",
+        text: `Priya says measure first: ${winner.fitCheck} That is the Wayfair advantage over guessing from a photo.`,
+      },
+    ],
+    verdict: council.verdict,
+    note: `Shopper interrupted with: "${message}"`,
   };
 }

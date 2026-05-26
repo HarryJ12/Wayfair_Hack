@@ -28,6 +28,113 @@ export type CouncilScenario = {
 
 export const scenarios: CouncilScenario[] = [
   {
+    id: "wayfair-blue-sofa-page",
+    title: "Wayfair Blue Sofa Page",
+    room: "Living room",
+    shopperGoal:
+      "Choose a blue sofa from the Wayfair blue sofa results page without getting burned by fit, quality, or delivery surprises.",
+    shopperProfile:
+      "Shopper is browsing Wayfair's blue sofa page and wants a piece that looks elevated, feels legitimate, and fits a real apartment living room.",
+    constraints: [
+      "Must be blue",
+      "Needs clear dimensions before buying",
+      "Should feel trustworthy, not sketchy",
+      "Delivery and assembly cannot be a mystery",
+    ],
+    products: [
+      {
+        id: "blue-sofa-performance",
+        name: "Auburn Performance Velvet Sofa",
+        price: 879,
+        dimensions: '82"W x 36"D x 34"H',
+        material: "Blue performance velvet upholstery",
+        delivery: "Arrives in 6-9 days with scheduled delivery window",
+        assembly: "Attach legs and connect back cushions, two-person setup",
+        fitCheck:
+          "Use the Wayfair dimensions section to check the 82 inch width, 36 inch depth, and doorway clearance before buying.",
+        reviewSummary:
+          "Strong reviews for rich color and sturdy frame. A few buyers say the cushions start firm.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Blue sofa results page",
+          "Dimensions section",
+          "View in Room",
+          "Delivery window",
+          "Assembly details",
+        ],
+        trustSignals: [
+          "Review pattern",
+          "Customer photos",
+          "Verified listing details",
+        ],
+        tags: ["blue", "performance fabric", "best balance"],
+        risk: "Firm cushions may disappoint someone expecting sink-in softness.",
+        whyItMatters:
+          "It is the strongest balanced pick: blue statement color, practical fabric, visible dimensions, and manageable delivery.",
+      },
+      {
+        id: "blue-sofa-budget",
+        name: "Harbor Blue Apartment Sofa",
+        price: 529,
+        dimensions: '72"W x 33"D x 33"H',
+        material: "Blue linen-look polyester",
+        delivery: "Arrives in 4-7 days, ships compact",
+        assembly: "Simple leg attachment, easiest setup in the set",
+        fitCheck:
+          "The 72 inch width is the safest apartment fit, but shoppers should compare seat depth if they want lounge comfort.",
+        reviewSummary:
+          "Buyers like the price and color. Some reviews call it better for sitting than sprawling.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Dimensions section",
+          "Fast delivery estimate",
+          "Customer reviews",
+        ],
+        trustSignals: [
+          "Budget review pattern",
+          "Clear return expectations",
+          "Customer photos",
+        ],
+        tags: ["blue", "budget", "small space"],
+        risk: "Lower-end comfort and smaller scale may feel less premium in the room.",
+        whyItMatters:
+          "It is the low-end challenger: cheaper, safer to deliver, and easier to fit, but less impressive.",
+      },
+      {
+        id: "blue-sofa-luxe",
+        name: "Indigo Luxe Chesterfield Sofa",
+        price: 1399,
+        dimensions: '88"W x 39"D x 31"H',
+        material: "Deep indigo velvet with tufted back",
+        delivery: "Arrives in 10-14 days as an oversized item",
+        assembly: "White-glove style delivery preferred because of weight",
+        fitCheck:
+          "View in Room is essential here: the 88 inch width and deep profile can dominate smaller spaces.",
+        reviewSummary:
+          "Reviewers love the dramatic color and premium look. Delivery comments warn about tight stairs.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "View in Room",
+          "Oversized delivery disclosure",
+          "Dimensions section",
+          "Premium material notes",
+        ],
+        trustSignals: [
+          "Premium review pattern",
+          "Delivery-risk reviews",
+          "Customer photos",
+        ],
+        tags: ["blue", "luxury", "statement"],
+        risk: "Beautiful but expensive, oversized, and most vulnerable to delivery friction.",
+        whyItMatters:
+          "It is the luxury argument: the most memorable sofa, but only worth it if the room and delivery path can handle it.",
+      },
+    ],
+  },
+  {
     id: "tiny-apartment-sofa",
     title: "Tiny Apartment Sofa",
     room: "Living room",
@@ -306,7 +413,7 @@ export const scenarios: CouncilScenario[] = [
   },
 ];
 
-export const DEFAULT_SCENARIO_ID = scenarios[0].id;
+export const DEFAULT_SCENARIO_ID = "wayfair-blue-sofa-page";
 
 export function getScenario(id?: string | null): CouncilScenario {
   return scenarios.find((scenario) => scenario.id === id) ?? scenarios[0];
