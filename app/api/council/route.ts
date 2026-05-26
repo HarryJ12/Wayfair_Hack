@@ -25,7 +25,7 @@ export async function POST(request: Request) {
   const fallback = buildFallbackCouncil(scenario);
   const openaiModelId = process.env.OPENAI_MODEL;
   const anthropicModelId =
-    process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-20250514";
+    process.env.ANTHROPIC_MODEL ?? "claude-sonnet-4-5-20250929";
   const providerPreference = process.env.COUNCIL_MODEL_PROVIDER;
   const modelConfig = process.env.ANTHROPIC_API_KEY &&
     (!providerPreference || providerPreference === "anthropic")
