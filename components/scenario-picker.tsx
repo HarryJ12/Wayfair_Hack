@@ -25,7 +25,7 @@ export function ScenarioPicker({
               onClick={() => onSelect(scenario.id)}
               className={`min-h-32 rounded-lg border p-4 text-left transition ${
                 selected
-                  ? "border-[#ff5c28] bg-[#ff5c28]/10"
+                  ? "border-[#7f187f] bg-[#7f187f]/15"
                   : "border-zinc-800 bg-black hover:border-zinc-600"
               }`}
             >

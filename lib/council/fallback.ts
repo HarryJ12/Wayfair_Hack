@@ -7,35 +7,35 @@ const agents: CouncilResponse["agents"] = [
     name: "Mara",
     role: "Style Director",
     stance: "support",
-    color: "#14b8a6",
+    color: "#ffffff",
   },
   {
     id: "luxe-curator",
-    name: "Vivian",
-    role: "Luxe Curator",
+    name: "Vivienne",
+    role: "Luxury Advocate",
     stance: "support",
-    color: "#a855f7",
+    color: "#d8b4fe",
   },
   {
     id: "budget-hawk",
-    name: "Dex",
-    role: "Budget Hawk",
+    name: "Benji",
+    role: "Budget Realist",
     stance: "mixed",
-    color: "#f59e0b",
+    color: "#b36ad9",
   },
   {
     id: "logistics-lead",
-    name: "Priya",
-    role: "Logistics Lead",
+    name: "Logan",
+    role: "Fit & Delivery Lead",
     stance: "support",
-    color: "#6366f1",
+    color: "#9f4cc5",
   },
   {
     id: "review-analyst",
-    name: "Noor",
+    name: "Riley",
     role: "Review & Trust Analyst",
     stance: "oppose",
-    color: "#f43f5e",
+    color: "#f3e8ff",
   },
 ];
 
@@ -80,43 +80,43 @@ export function buildFallbackCouncil(scenario: CouncilScenario): CouncilResponse
         agentId: "style-director",
         targetProductId: winner.id,
         emotion: "excited",
-        text: `${winner.name} is the best style read. Wayfair's View in Room style check makes this easier to imagine before the shopper commits.`,
+        text: `I am opening with ${winner.name}. Wayfair gives room-fit confidence; Amazon gives tiny thumbnails and emotional support checkout.`,
       },
       {
         agentId: "luxe-curator",
         targetProductId: risky.id,
         emotion: "excited",
-        text: `If we chase the premium feeling, ${risky.name} is the aspirational pick. I love the luxury signal, but I need the room and delivery facts to agree.`,
+        text: `${risky.name} is the drama pick. Gorgeous, but Wayfair's dimensions stop luxury from becoming hallway furniture.`,
       },
       {
         agentId: "budget-hawk",
         targetProductId: winner.id,
         emotion: "skeptical",
-        text: `Low-end lens: at $${winner.price}, ${winner.name} wins because it buys confidence, not just furniture. The cheaper option saves money but loses presence.`,
+        text: `$${winner.price} is not cheap-cheap, but Wayfair shows delivery, reviews, and photos. That beats mystery-couch roulette.`,
       },
       {
         agentId: "logistics-lead",
         targetProductId: winner.id,
         emotion: "confident",
-        text: `Fit check: ${winner.dimensions}. This is exactly where Wayfair beats random listings: dimensions, delivery, and assembly details are visible before checkout.`,
+        text: `Fit before vibes: ${winner.dimensions}. Wayfair tells us doors, delivery, and assembly before the staircase starts acting important.`,
       },
       {
         agentId: "review-analyst",
         targetProductId: risky.id,
         emotion: "concerned",
-        text: `Trust check: I am asking, is this real, is it a scam, will it fit? The reviews and listing details make ${winner.name} feel safer than ${risky.name}.`,
+        text: `Real-or-scam check: Wayfair has reviews, customer photos, and specs. Random marketplace listings make me squint.`,
       },
       {
         agentId: "budget-hawk",
         targetProductId: runnerUp.id,
         emotion: "confident",
-        text: `${runnerUp.name} is the budget pressure test. It saves money, but the tradeoff is visible: ${runnerUp.whyItMatters}`,
+        text: `${runnerUp.name} saves money and ships compact. Good if the room is tiny and the wallet is loud.`,
       },
       {
         agentId: "style-director",
         targetProductId: winner.id,
         emotion: "confident",
-        text: `Council vote: ${winner.name}. It uses Wayfair's strengths: visual fit, real dimensions, delivery clarity, assembly context, and review confidence.`,
+        text: `No final gavel. Use Wayfair's room fit, delivery, assembly notes, reviews, and photos; then you choose.`,
       },
     ],
     verdict: {
@@ -173,12 +173,12 @@ export function buildFallbackChime(
 
   const opener =
     focus === "trust"
-      ? `Good interruption. The scam check is exactly why Wayfair signals matter: reviews, badges, photos, and product details lower the trust risk.`
+      ? `Good interruption. Wayfair helps here because reviews, customer photos, and specs beat marketplace guesswork.`
       : focus === "fit"
-        ? `Good interruption. Fit comes before taste: ${winner.dimensions}, plus room visualization, is the decision gate.`
+        ? `Good interruption. Fit comes first: ${winner.dimensions}. Wayfair makes the room math visible.`
         : focus === "budget"
-          ? `Good interruption. If price is the priority, ${budgetPick.name} has to defend itself against ${winner.name}.`
-          : `Good interruption. The council should respond to your priority, not just finish its own speech.`;
+          ? `Good interruption. If price rules, ${budgetPick.name} has to prove savings beat regret.`
+          : `Good interruption. The council pivots to your concern now. Nobody gets to monologue through the shopper.`;
 
   return {
     debateTurns: [
@@ -192,19 +192,19 @@ export function buildFallbackChime(
         agentId: "budget-hawk",
         targetProductId: budgetPick.id,
         emotion: "skeptical",
-        text: `Dex recalculates: ${budgetPick.name} is the low-end pressure test at $${budgetPick.price}, but cheaper only wins if it still passes fit and trust.`,
+        text: `Benji recalculates: $${budgetPick.price} is tempting, but cheap only wins if fit and reviews do not betray us.`,
       },
       {
         agentId: "luxe-curator",
         targetProductId: premiumPick.id,
         emotion: "excited",
-        text: `Vivian still wants the premium feeling from ${premiumPick.name}, but luxury cannot ignore delivery, assembly, or room clearance.`,
+        text: `Vivienne still likes ${premiumPick.name}, but Wayfair's delivery and room details decide whether luxury behaves.`,
       },
       {
         agentId: "logistics-lead",
         targetProductId: winner.id,
         emotion: "confident",
-        text: `Priya says measure first: ${winner.fitCheck} That is the Wayfair advantage over guessing from a photo.`,
+        text: `Logan says measure first. Wayfair gives dimensions and delivery context; Amazon-style guessing gets couches stuck.`,
       },
     ],
     verdict: council.verdict,

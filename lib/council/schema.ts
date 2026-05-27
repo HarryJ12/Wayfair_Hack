@@ -10,6 +10,10 @@ export const CouncilSourceSchema = z.enum([
 export const CouncilRequestSchema = z.object({
   scenarioId: z.string().optional(),
   url: z.string().optional(),
+  shopperGoal: z.string().optional(),
+  constraints: z.array(z.string()).optional(),
+  sourceLabel: z.string().optional(),
+  live: z.boolean().optional(),
 });
 
 export const CouncilProductSchema = z.object({

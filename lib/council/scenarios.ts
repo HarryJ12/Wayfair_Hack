@@ -57,9 +57,8 @@ export const scenarios: CouncilScenario[] = [
         imageUrl:
           "https://images.unsplash.com/photo-1550581190-9c1c48d21d6c?auto=format&fit=crop&w=900&q=80",
         wayfairSignals: [
-          "Blue sofa results page",
-          "Dimensions section",
-          "View in Room",
+          "Room fit",
+          "Compact dimensions",
           "Delivery window",
           "Assembly details",
         ],
@@ -117,9 +116,9 @@ export const scenarios: CouncilScenario[] = [
         imageUrl:
           "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
         wayfairSignals: [
-          "View in Room",
-          "Oversized delivery disclosure",
-          "Dimensions section",
+          "Room fit",
+          "Delivery window",
+          "Dimensions",
           "Premium material notes",
         ],
         trustSignals: [
@@ -131,6 +130,156 @@ export const scenarios: CouncilScenario[] = [
         risk: "Beautiful but expensive, oversized, and most vulnerable to delivery friction.",
         whyItMatters:
           "It is the luxury argument: the most memorable sofa, but only worth it if the room and delivery path can handle it.",
+      },
+      {
+        id: "blue-sofa-sleeper",
+        name: "Midnight Blue Sleeper Sofa",
+        price: 1049,
+        dimensions: '84"W x 37"D x 35"H',
+        material: "Blue microfiber with pull-out sleeper frame",
+        delivery: "Arrives in 8-11 days, heavy-box delivery",
+        assembly: "Sleeper frame arrives assembled, legs attach on site",
+        fitCheck:
+          "The sleeper function needs both wall space and pull-out clearance, so Wayfair dimensions matter twice here.",
+        reviewSummary:
+          "Guests like the sleeper option. A few reviews say the box is heavy and needs two people.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1549187774-b4e9b0445b41?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Sleeper dimensions",
+          "Delivery weight notes",
+          "Customer photos",
+          "Assembly details",
+        ],
+        trustSignals: [
+          "Guest-use reviews",
+          "Verified dimensions",
+          "Photo reviews",
+        ],
+        tags: ["blue", "sleeper", "guest-ready"],
+        risk: "Useful, but heavy and more annoying if the staircase is narrow.",
+        whyItMatters:
+          "It adds guest-room utility, but the council has to check pull-out clearance before anyone gets cute.",
+      },
+      {
+        id: "blue-sofa-modular",
+        name: "Cobalt Modular Sofa",
+        price: 1189,
+        dimensions: '90"W x 38"D x 32"H',
+        material: "Cobalt woven performance fabric",
+        delivery: "Arrives in 7-10 days in modular boxes",
+        assembly: "Connect modular seats and attach low-profile legs",
+        fitCheck:
+          "Modular boxes make delivery less scary, but the final 90 inch width needs a room plan.",
+        reviewSummary:
+          "Customers like rearranging it. Some say the low back changes the lounging feel.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Modular delivery",
+          "Room fit",
+          "Dimensions",
+          "Configuration notes",
+        ],
+        trustSignals: [
+          "Configuration reviews",
+          "Customer photos",
+          "Detailed listing specs",
+        ],
+        tags: ["blue", "modular", "flexible"],
+        risk: "The low profile may look amazing online but feel casual in person.",
+        whyItMatters:
+          "It is the flexible option: easier to move, easier to reconfigure, but not the cleanest style story.",
+      },
+      {
+        id: "blue-sofa-reclining",
+        name: "Navy Power Reclining Sofa",
+        price: 1299,
+        dimensions: '86"W x 40"D x 41"H',
+        material: "Navy faux leather with power recline",
+        delivery: "Arrives in 9-13 days with scheduled room-of-choice delivery",
+        assembly: "Connect backs and power cables, two adults recommended",
+        fitCheck:
+          "The recline clearance is the trap: measure wall distance, doorway width, and outlet placement before buying.",
+        reviewSummary:
+          "Comfort gets big praise. Style people are split because recliners can look bulky.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Recline clearance",
+          "Room-of-choice delivery",
+          "Assembly details",
+          "Reviews",
+        ],
+        trustSignals: [
+          "Comfort reviews",
+          "Delivery disclosures",
+          "Detailed product specs",
+        ],
+        tags: ["blue", "recliner", "comfort"],
+        risk: "Comfort monster, style gamble.",
+        whyItMatters:
+          "It is for the buyer who wants comfort first, but the room has to survive the bulk.",
+      },
+      {
+        id: "blue-sofa-petite",
+        name: "Sky Blue Petite Loveseat",
+        price: 449,
+        dimensions: '60"W x 32"D x 32"H',
+        material: "Sky blue polyester blend",
+        delivery: "Arrives in 3-6 days in one compact box",
+        assembly: "Attach legs only, easiest setup",
+        fitCheck:
+          "This is the safest fit by far, but it may not solve the actual sofa need if two people want to lounge.",
+        reviewSummary:
+          "Small-space shoppers love it. Taller buyers say it feels more like a loveseat than a sofa.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Compact dimensions",
+          "Fast delivery",
+          "Customer photos",
+          "Assembly details",
+        ],
+        trustSignals: [
+          "Small-space reviews",
+          "Clear dimensions",
+          "Budget listing details",
+        ],
+        tags: ["blue", "petite", "lowest price"],
+        risk: "So safe it might become boring, which is rude but true.",
+        whyItMatters:
+          "It is the low-risk tiny-space pick, not the hero piece.",
+      },
+      {
+        id: "blue-sofa-coastal",
+        name: "Coastal Denim Slipcovered Sofa",
+        price: 799,
+        dimensions: '80"W x 35"D x 35"H',
+        material: "Denim blue washable slipcover",
+        delivery: "Arrives in 6-8 days with standard delivery",
+        assembly: "Attach legs and fit washable slipcover",
+        fitCheck:
+          "The 80 inch width is manageable, and washable covers make it safer for pets, guests, and real life.",
+        reviewSummary:
+          "Reviews praise the relaxed look and washable cover. Some shoppers want a crisper silhouette.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=900&q=80",
+        wayfairSignals: [
+          "Washable cover details",
+          "Dimensions section",
+          "Customer photos",
+          "Delivery estimate",
+        ],
+        trustSignals: [
+          "Material reviews",
+          "Photo reviews",
+          "Clear care instructions",
+        ],
+        tags: ["blue", "washable", "family-friendly"],
+        risk: "Relaxed slipcover energy can read casual instead of elevated.",
+        whyItMatters:
+          "It is the practical middle: easier to live with than velvet, less exciting than the luxe pick.",
       },
     ],
   },
@@ -216,7 +365,7 @@ export const scenarios: CouncilScenario[] = [
           "https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=900&q=80",
         wayfairSignals: [
           "View in Room style check",
-          "Oversized delivery disclosure",
+          "Delivery window",
           "Dimensions section",
         ],
         trustSignals: ["Premium reviews", "Delivery-risk reviews"],

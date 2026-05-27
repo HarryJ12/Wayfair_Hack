@@ -1,540 +1,317 @@
-# Shop Council
+# Shop Council - AI Shopping Debate
 
-Shop Council is a two-hour hackathon app for the Beat The Clock Agent Hack at Wayfair HQ.
+<div align="center">
 
-The demo: a user selects a curated furniture-shopping scenario or pastes a Wayfair URL, then an AI "boardroom" of shopping agents debates the choice and produces a final recommendation. The council should guide shoppers through the questions that make online furniture buying scary: is this real, is this a scam, will it fit my room, will delivery work, and will assembly be painful?
+**A live AI shopping council that turns furniture uncertainty into a guided, playful buying debate**
 
-The main product angle is that Wayfair is better for this decision because product pages expose practical confidence signals: dimensions, room visualization, delivery windows, assembly details, reviews, customer photos, and trust badges when available.
+[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![ElevenLabs](https://img.shields.io/badge/ElevenLabs-Voice-purple.svg)](https://elevenlabs.io/)
 
-## Current Repo Status
+</div>
 
-This repo has already been scaffolded from `hack-webapp-starter`.
+---
 
-Already created:
-- `app/api/council/route.ts` - fallback-first council API with optional Subconscious orchestration.
-- `components/council-app.tsx` - main Shop Council screen.
-- `components/scenario-picker.tsx` - preset scenario selector.
-- `components/council-board.tsx` - product cards, agent cards, animated debate transcript.
-- `components/verdict-panel.tsx` - final recommendation.
-- `lib/council/scenarios.ts` - three curated Wayfair-style scenarios.
-- `lib/council/schema.ts` - Zod schema and TypeScript response contract.
-- `lib/council/prompt.ts` - orchestrator prompt.
-- `lib/council/fallback.ts` - deterministic fallback debate.
-- `.env.example` - required environment shape.
+## Overview
 
-The app should run even without an API key because `/api/council` returns fallback JSON when no live model key is configured.
+Buying furniture online is stressful.
 
-Latest backend behavior:
-- Claude is the preferred live LLM brain when `ANTHROPIC_API_KEY` is set.
-- Subconscious still works when `SUBCONSCIOUS_API_KEY` is set.
-- OpenAI works only when both `OPENAI_API_KEY` and `OPENAI_MODEL` are set.
-- `COUNCIL_MODEL_PROVIDER` can force `anthropic`, `subconscious`, or `openai`.
-- If a pasted URL contains words like `sofa`, `desk`, `office`, `dining`, or `table`, the API maps it to the closest curated scenario.
-- If URL mapping or live LLM fails, fallback mode still returns a complete debate.
+Shoppers are not only asking, "Do I like this sofa?"
 
-## Exact Starter Repo Decision
+They are asking:
 
-Use `subconscious-systems/hack-webapp-starter` as the primary repo.
+- Will this fit my room?
+- Is this listing real or sketchy?
+- Can I trust the reviews?
+- Will delivery work?
+- How annoying is assembly?
+- Is the cheaper option actually a trap?
 
-Why:
-- It already gives us a Next.js app, a working UI, an API route, Subconscious API wiring, streaming responses, Tailwind, TypeScript, and deployable web structure.
-- It lets one person work on UI while another works on orchestration/backend in the same repo.
-- It minimizes setup friction. For this demo, the web experience is the product.
+**Shop Council** solves this by turning a vendor-specific product decision into a live AI boardroom debate.
 
-Do not use `hack-cloudflare-workers-starter` as the primary repo. Use it only as a reference or stretch integration.
+Instead of giving a flat recommendation, five AI agents argue through the tradeoffs in real time. The shopper can interrupt, challenge the council, ask about fit or trust, and hear the agents respond.
 
-Do not use `hack-cli-starter` for the product. Use it only to understand the ReAct/tool loop pattern if needed.
+The product is designed for retailers and marketplaces where shoppers need more than search results. It can be configured for a specific vendor, such as a furniture retailer or a broad marketplace, and uses that vendor's product details to explain dimensions, room-fit confidence, delivery windows, assembly details, reviews, customer photos, and product-specific buying context.
 
-Skip iOS entirely unless someone gives a finished iOS starter and the team already has an iOS demo path. For this concept, iOS is a distraction.
+---
 
-## Repo Scout Summary
+## Key Features
 
-### `hack-webapp-starter`
+- **Live AI council debate** with five distinct shopping agents
+- **Interactive shopper interruptions** during the debate
+- **Vendor-aware product reasoning** around fit, delivery, assembly, reviews, and photos
+- **Curated blue sofa demo JSON** for reliable hackathon demos
+- **Product URL input** for demo realism without depending on scraping
+- **ElevenLabs agent voices** mapped per personality
+- **Brandable purple/white UI**
+- **Compact internal chat thread** so the user does not have to scroll the full page
+- **Fallback-first architecture** so the demo still works without live scraping
 
-Already included:
-- Next.js app router
+---
+
+## Agent Council
+
+The council is intentionally playful and opinionated.
+
+- **Mara - Style Director**
+  Leads with taste, visual fit, and whether the room feels elevated.
+
+- **Vivienne - Luxury Advocate**
+  Pushes for the premium option and the aspirational look.
+
+- **Benji - Budget Realist**
+  Defends the lower-cost option and calls out fake savings.
+
+- **Logan - Fit & Delivery Lead**
+  Owns measurements, doors, stairs, delivery, and assembly friction.
+
+- **Riley - Review & Trust Analyst**
+  Handles "is this real?", customer photos, review signals, and buyer regret.
+
+The agents are prompted to explain why a vendor-specific shopping flow can work better than generic product search: the experience can surface the signals shoppers actually need before buying.
+
+---
+
+## Tech Stack
+
+### Web App
+
+- Next.js 16
 - React 19
+- TypeScript
 - Tailwind CSS
-- `/api/chat` route
-- Subconscious model provider in `lib/subconscious.ts`
-- Agent definitions in `lib/agents/index.ts`
-- Tool examples in `lib/tools/index.ts`
-- Chat UI in `components/chat-app.tsx`
-- Image upload support
-- AI SDK `ToolLoopAgent`
-- Subconscious skill docs under `.agents/skills/subconscious-dev`
+- App Router API routes
 
-Use this as the base.
+### AI + Orchestration
 
-### `hack-cloudflare-workers-starter`
+- Vercel AI SDK structured object generation
+- Anthropic Claude support
+- Subconscious API support
+- OpenAI support
+- Zod schemas for strict council JSON
+- Deterministic fallback council for reliable demos
 
-Already included:
-- Cloudflare Worker
-- Hono API routes
-- Static dashboard
-- KV storage for config/run history
-- Cron/webhook/API triggers
-- Client-side ReAct loop
-- Mock `search_catalog`
-- Basic `fetch_url`
+### Voice
 
-Important correction: this repo does not include turnkey browser driving or scraping. It has normal fetch tooling and Cloudflare Worker plumbing. If the event gives Browser Rendering docs or bindings, treat that as a stretch add-on.
+- ElevenLabs Text-to-Speech
+- Five mapped agent voices
+- Browser audio element playback
+- Voice-aware debate timing so agents do not cut each other off
 
-Use only if we finish the core app early.
-
-### `hack-cli-starter`
-
-Already included:
-- Terminal REPL
-- MCP client
-- Filesystem/weather tool examples
-- Structured JSON loop
-- Nice reference architecture for tool calling
-
-Do not build the demo here. It will not look good enough for a 60-second video.
-
-## Backend Only?
-
-No. We should not build backend-only.
-
-The debate is the product, so we need a visual web surface. But we should not spend the first hour inventing frontend plumbing. The starter already gives us the shell. Our actual work is:
-
-1. Replace generic chat with a Shop Council demo flow.
-2. Add one backend route that returns structured council JSON.
-3. Add curated product/scenario data.
-4. Animate/render the council debate.
-5. Add browser-native speech if time allows.
-
-Backend is the core logic. Frontend is the showmanship layer. Both must exist, but the frontend should be lightweight and built on the starter.
-
-## Fastest Architecture
-
-Use one Next.js app.
-
-```text
-User selects preset or pastes URL
-        |
-        v
-Next.js UI
-        |
-        v
-POST /api/council
-        |
-        v
-Single orchestrator LLM call through Subconscious
-        |
-        v
-Strict JSON:
-  scenario
-  products
-  agents[]
-  debateTurns[]
-  verdict
-  confidence
-        |
-        v
-Animated council UI + final recommendation
-```
-
-No real distributed agents. The "agents" are simulated by one orchestrator call that writes the full debate script.
-
-## Minimum Viable Product That Can Still Win
-
-The absolute minimum:
-- Three curated Wayfair-style scenarios.
-- One "Run Council" button.
-- Optional live model call that returns structured JSON.
-- Five agents with distinct personalities:
-  - Style Director: room fit, taste, View in Room confidence.
-  - Luxe Curator: high-end/premium advocate.
-  - Budget Hawk: low-end/value advocate.
-  - Logistics Lead: dimensions, delivery, assembly, doorway fit.
-  - Review & Trust Analyst: reviews, badges, scam check, buyer regret.
-- Animated debate transcript with speaker cards.
-- Final verdict with winner, reasons, objections, and "buy / consider / skip".
-- Browser-native speech for 1 or 2 lines if time remains.
-
-This is enough for a compelling 60-second video.
-
-## Mock vs Live Data
-
-Use mock data first.
-
-Mock:
-- Product title
-- Price
-- Dimensions
-- Material
-- Delivery estimate
-- Review summary
-- Pros/cons
-- Scenario constraints
-
-Live URL ingestion is a stretch only after the demo works. If we add it, use a fallback:
-- Try URL parse/fetch.
-- If it fails, map to a curated scenario.
-- Never let live scraping block the demo.
-
-## Sponsor Tooling Worth Using
-
-Use:
-- Subconscious API for the orchestrator LLM call.
-- The included Subconscious skill/docs already copied into this repo.
-- Baseten only indirectly if Subconscious routes through sponsor-hosted inference, unless the event hands us a ready endpoint.
-- Cloudflare only as a stretch for URL fetch/browser tooling if the core app is done.
-
-Skip:
-- Browser extension.
-- Distributed multi-agent framework.
-- MCP unless a tool is already ready.
-- ElevenLabs.
-- Raw Playwright setup.
-- Complex scraping pipeline.
-- Custom database.
-- Auth.
-- Payments/cart integration.
-
-## Exact APIs Needed
-
-Required:
-- None. The MVP works with curated fallback data.
-
-Optional, only if sponsors provide them or the MVP is already working:
-- `SUBCONSCIOUS_API_KEY` - optional sponsor-stack live model.
-- `ANTHROPIC_API_KEY` and optional `ANTHROPIC_MODEL` - recommended live LLM brain if we use Claude.
-- `OPENAI_API_KEY` and `OPENAI_MODEL` - optional live model fallback if we do not get Subconscious access.
-- `CLOUDFLARE_API_TOKEN` - only for Cloudflare deploy/browser tooling stretch.
-- `CLOUDFLARE_ACCOUNT_ID` - only for Cloudflare deploy/browser tooling stretch.
-- `BASETEN_API_KEY` or a Baseten Gateway endpoint/key - only if direct Baseten access is provided separately from Subconscious.
-- Official Wayfair product/catalog API endpoint and key - only if Wayfair provides one during the event.
-- `ELEVENLABS_API_KEY` - not recommended for MVP; browser speech is already included.
-
-Not needed for the current plan:
-- Claude key.
-- OpenAI key.
-- Database credentials.
-- Auth provider credentials.
-
-## Browser Speech vs ElevenLabs
-
-Use browser-native speech.
-
-Reason:
-- Zero API setup.
-- Works locally.
-- Good enough for a video.
-- ElevenLabs adds key setup, latency, and failure risk.
-
-Implementation target:
-- Use `window.speechSynthesis`.
-- Speak only the current highlighted debate turn or the final verdict.
-- Add a mute toggle.
-
-## Intended App Structure
-
-Keep this simple:
-
-```text
-app/
-  api/
-    council/
-      route.ts          # POST endpoint for council orchestration
-  page.tsx              # renders Shop Council app
-
-components/
-  council-app.tsx       # main demo UI
-  council-board.tsx     # agent cards + debate animation
-  scenario-picker.tsx   # preset scenarios
-  verdict-panel.tsx     # final recommendation
-
-lib/
-  council/
-    scenarios.ts        # curated product/scenario JSON
-    schema.ts           # zod schema for council output
-    prompt.ts           # orchestrator prompt
-    fallback.ts         # deterministic fallback debate if API fails
-  subconscious.ts       # existing provider
-```
-
-Keep the existing starter files until replaced. Do not add a second app.
-
-## Exact Council Roles
-
-These are the locked v2 roles after PM feedback:
-
-1. Style Director
-   - Name in fallback: Mara.
-   - Optimizes for aesthetics, taste, room fit, visual coherence, and Wayfair's View in Room / room visualization value.
-
-2. Luxe Curator
-   - Name in fallback: Vivian.
-   - Argues for the high-end option, premium feel, better materials, and the aspirational home outcome.
-
-3. Budget Hawk
-   - Name in fallback: Dex.
-   - Argues for the low-end/value option, price discipline, hidden costs, discount logic, and whether the recommendation is financially sane.
-
-4. Logistics Lead
-   - Name in fallback: Priya.
-   - Owns dimensions, delivery, assembly, returns, doorways, stairs, clearance, and whether the product will actually fit.
-
-5. Review & Trust Analyst
-   - Name in fallback: Noor.
-   - Owns reviews, customer photos, badges, listing confidence, "is this real?", "is this a scam?", and buyer regret.
-
-Do not remove:
-- Style Director
-- Budget Hawk
-- Luxe Curator
-- Logistics Lead
-- Review & Trust Analyst
-
-This set maps cleanly to the demo story: high-end vs low-end, style confidence, fit/logistics confidence, and trust/scam confidence.
-
-## Council JSON Contract
-
-The backend should return this shape:
-
-```ts
-type CouncilResponse = {
-  scenario: {
-    id: string;
-    title: string;
-    shopperGoal: string;
-    constraints: string[];
-  };
-  products: Array<{
-    id: string;
-    name: string;
-    price: number;
-    dimensions: string;
-    material: string;
-    delivery: string;
-    reviewSummary: string;
-  }>;
-  agents: Array<{
-    id: string;
-    name: string;
-    role: string;
-    stance: "support" | "oppose" | "mixed";
-    color: string;
-  }>;
-  debateTurns: Array<{
-    agentId: string;
-    text: string;
-    targetProductId?: string;
-    emotion: "confident" | "skeptical" | "excited" | "concerned";
-  }>;
-  verdict: {
-    winnerProductId: string;
-    decision: "buy" | "consider" | "skip";
-    headline: string;
-    reasons: string[];
-    caveats: string[];
-    confidence: number;
-  };
-};
-```
-
-If the Subconscious call fails, return a curated fallback response with the same shape. The UI should never be blank.
-
-## Parallel Work Split
-
-Use `main` as the shared base branch after this scaffold is pushed.
-
-### Person A / This Computer
-
-Owns the framework and backend contract.
-
-Files:
-- `app/api/council/route.ts`
-- `lib/council/scenarios.ts`
-- `lib/council/schema.ts`
-- `lib/council/prompt.ts`
-- `lib/council/fallback.ts`
-- `components/council-app.tsx`
-- `README.md`
-- `AGENTS.md`
-
-Tasks:
-- Keep the app runnable.
-- Ensure fallback JSON always works.
-- Wire an optional model key only if one is available.
-- Tighten prompt and schema.
-- Add or edit curated scenarios.
-- Keep API response shape stable.
-
-### Person B / Teammate Agent
-
-Owns demo polish and optional stretch work. Start from the pushed scaffold.
-
-Recommended branch:
-
-```bash
-git checkout -b ui-polish-and-stretch
-```
-
-Primary files to edit:
-- `components/council-board.tsx`
-- `components/verdict-panel.tsx`
-- `components/scenario-picker.tsx`
-- `app/globals.css`
-
-Tasks:
-- Improve the boardroom visual presentation.
-- Improve animation timing and speaker highlighting.
-- Improve mobile layout.
-- Add better product imagery if available.
-- Add one memorable debate moment per scenario.
-- Improve browser-native speech pacing.
-- Help write and rehearse the 60-second video script.
-
-Stretch files, only after the demo works:
-- `lib/council/url-ingest.ts`
-- `app/api/council/route.ts`
-
-Stretch tasks:
-- Add safe URL ingestion.
-- Map a pasted Wayfair URL to a curated fallback scenario if extraction fails.
-- Explore Cloudflare browser tooling only if sponsor docs/API access are available.
-
-### Merge Rule
-
-Person B should avoid changing:
-- `lib/council/schema.ts`
-- `app/api/council/route.ts`
-
-unless explicitly coordinating first. That keeps merge conflicts small.
-
-## Two-Hour Build Order
-
-Demo script:
-- Use [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md) for the 60-second recording flow.
-
-### Before the event
-
-1. Get `SUBCONSCIOUS_API_KEY`.
-2. Confirm Node 20+ and `pnpm`.
-3. Run the starter locally.
-4. Prepare 3 curated scenarios and product JSON.
-5. Draft the 60-second demo script.
-6. Decide who owns UI and who owns backend.
-
-### During the event
-
-0-10 min:
-- Pull repo.
-- `pnpm install`.
-- Create `.env.local`.
-- Run `pnpm dev`.
-
-10-25 min:
-- Create `lib/council/scenarios.ts`.
-- Create `lib/council/schema.ts`.
-- Create `lib/council/fallback.ts`.
-
-25-45 min:
-- Create `POST /api/council`.
-- Make it return fallback JSON first.
-- Then wire Subconscious call if key works.
-
-45-75 min:
-- Replace generic chat screen with `CouncilApp`.
-- Add scenario picker.
-- Render agent cards and debate turns.
-- Render verdict.
-
-75-95 min:
-- Add animation timing.
-- Add browser-native speech toggle.
-- Add loading and error fallback states.
-
-95-110 min:
-- Polish visual density.
-- Practice recording path.
-- Lock one curated scenario for the final video.
-
-110-120 min:
-- Record 60-second demo.
-- Do not add new features.
-
-## If We Only Have 90 Productive Minutes
-
-Build first:
-1. Preset scenario picker.
-2. Fallback council JSON.
-3. Animated council UI.
-4. Final verdict panel.
-5. Subconscious orchestrator call.
-
-Do not touch:
-- Live Wayfair URL scraping.
-- Cloudflare browser tooling.
-- ElevenLabs.
-- MCP.
-- Deploy complexity.
-
-## Biggest Risks
-
-- Subconscious key or model latency blocks the demo.
-- Structured output breaks.
-- UI takes longer than expected.
-- Live scraping fails on Wayfair pages.
-- Team spends too long making the architecture "real".
-
-Mitigations:
-- Fallback JSON always works.
-- One route, one call, one schema.
-- Curated scenarios first.
-- Local demo is acceptable for the video.
-- Cut speech before cutting verdict clarity.
-
-## Highest ROI Polish
-
-- Agent names and distinct stances.
-- Speaker highlight animation.
-- Final verdict that feels decisive.
-- One funny but useful interruption.
-- Price/dimensions callouts.
-- Confidence meter.
-- Browser speech for the final verdict.
+---
 
 ## Setup
 
+### Prerequisites
+
+- Node.js 20+
+- npm or pnpm
+- Optional: Anthropic API key for live AI chime responses
+- Optional: ElevenLabs API key for agent voices
+
+### Installation
+
+1. **Clone the repository**
 ```bash
-pnpm install
-cp .env.example .env.local
-# optional: edit .env.local and set a live model key
-pnpm dev
+git clone https://github.com/HarryJ12/Wayfair_Hack.git
+cd Wayfair_Hack
 ```
 
-Open `http://localhost:3000`.
-
-## Environment
-
+2. **Install dependencies**
 ```bash
-# No key required for MVP.
+npm install
+```
 
-# Optional live model:
-SUBCONSCIOUS_API_KEY=...
-ANTHROPIC_API_KEY=...
+3. **Create local environment file**
+```bash
+cp .env.example .env.local
+```
+
+4. **Add optional API keys**
+```bash
+# Optional live LLM brain
+ANTHROPIC_API_KEY=<your_anthropic_key>
 ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
-OPENAI_API_KEY=...
-OPENAI_MODEL=...
 COUNCIL_MODEL_PROVIDER=anthropic
 
-# Optional voice stretch:
-ELEVENLABS_API_KEY=...
+# Required for ElevenLabs voices
+ELEVENLABS_API_KEY=<your_elevenlabs_key>
 ```
 
-## Optional Subconscious Skill
+5. **Run locally**
+```bash
+npm run dev -- -p 3002
+```
 
-The repo already includes the copied Subconscious skill docs from the starter. If another local agent needs the skill installed globally, run:
+6. **Open the app**
+```text
+http://localhost:3002
+```
+
+---
+
+## Environment Variables
 
 ```bash
-npx skills add https://github.com/subconscious-systems/skills --skill subconscious-dev
+# Optional live model providers
+ANTHROPIC_API_KEY=
+ANTHROPIC_MODEL=claude-sonnet-4-5-20250929
+OPENAI_API_KEY=
+OPENAI_MODEL=
+SUBCONSCIOUS_API_KEY=
+COUNCIL_MODEL_PROVIDER=
+
+# Voice
+ELEVENLABS_API_KEY=
 ```
 
-## Final Principle
+The app works without live scraping because the main demo uses curated vendor-style product JSON.
 
-Make the council feel alive first. Make live scraping real only if the council already works.
+ElevenLabs voices require `ELEVENLABS_API_KEY`.
+
+---
+
+## Voice Mapping
+
+```text
+Mara      → kPzsL2i3teMYv0FxEYQ6
+Vivienne  → yj30vwTGJxSHezdAGsv9
+Benji     → alFofuDn3cOwyoz1i44T
+Logan     → yl2ZDV1MzN4HbQJbMihG
+Riley     → uIZsnBL0YK1S5j69bAih
+```
+
+Voice playback waits for the current ElevenLabs audio to finish before advancing to the next agent. When voice is off, the debate advances on a timer.
+
+---
+
+## Project Structure
+
+```text
+Wayfair_Hack/
+├── app/
+│   ├── api/
+│   │   ├── council/          (initial council generation)
+│   │   ├── council/chime/    (shopper interruption responses)
+│   │   └── voice/            (ElevenLabs TTS proxy)
+│   ├── globals.css
+│   ├── layout.tsx
+│   └── page.tsx
+├── components/
+│   ├── council-app.tsx       (main app state + controls)
+│   ├── council-board.tsx     (sofas, agents, chat, interrupt UI)
+│   ├── scenario-picker.tsx   (legacy scenario picker)
+│   └── verdict-panel.tsx     (legacy verdict panel)
+├── lib/
+│   └── council/
+│       ├── fallback.ts       (deterministic demo council)
+│       ├── model.ts          (LLM provider selection)
+│       ├── normalize.ts      (schema-safe response cleanup)
+│       ├── prompt.ts         (agent council prompts)
+│       ├── scenarios.ts      (curated product JSON)
+│       ├── schema.ts         (Zod schemas + TS types)
+│       ├── url-ingest.ts     (demo URL mapping)
+│       └── voices.ts         (agent voice IDs)
+└── docs/
+    └── DEMO_SCRIPT.md
+```
+
+---
+
+## Data Flow
+
+### Run Council
+
+```text
+User pastes product URL + edits goal/constraints
+    ↓
+Run Council
+    ↓
+POST /api/council
+    ↓
+Curated vendor product JSON
+    ↓
+CouncilResponse schema
+    ↓
+Animated council UI
+```
+
+### Shopper Interrupts
+
+```text
+Shopper types interruption
+    ↓
+Message appears immediately as "You"
+    ↓
+POST /api/council/chime
+    ↓
+LLM or fallback generates short agent replies
+    ↓
+Agents continue from shopper context
+```
+
+### Voice Playback
+
+```text
+Voice on
+    ↓
+Current agent turn
+    ↓
+POST /api/voice
+    ↓
+ElevenLabs MP3
+    ↓
+Browser audio player
+    ↓
+Next agent only starts after audio ends
+```
+
+---
+
+## Demo Flow
+
+1. Paste or keep the demo product URL.
+2. Keep the shopper goal focused on fit, trust, delivery, and value.
+3. Click **Voice on** if ElevenLabs is configured.
+4. Click **Run Council**.
+5. Let Mara open the debate.
+6. Interrupt with a prompt like:
+```text
+I have a narrow staircase. Is this going to fit or am I cooked?
+```
+7. Show the council pivoting to the shopper's concern.
+
+---
+
+## Why Vendor-Specific Shopping
+
+Shop Council is built around a simple insight:
+
+Furniture shopping is not just search. It is confidence-building.
+
+A vendor-specific experience can expose furniture-specific signals that generic search often buries or flattens:
+
+- dimensions
+- room fit
+- delivery windows
+- assembly details
+- reviews
+- customer photos
+- product context
+
+Shop Council makes those signals conversational, memorable, and easier to act on. The same pattern can be configured for a retailer, a marketplace, or a category-specific shopping experience.
+
+---
+
+## License
+
+Copyright © 2026 Shop Council. All rights reserved.
+
+---
+
+<div align="center">
+
+**Built during a Boston Tech Week agent hackathon**
+
+</div>

@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --brand: #ff5c28;
+  --brand: #7f187f;
   --brand-hover: #ff7347;
   --brand-muted: rgb(255 92 40 / 0.15);
 }
 
 @theme {
-  --color-brand: #ff5c28;
+  --color-brand: #7f187f;
   --color-brand-hover: #ff7347;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

@@ -3,7 +3,7 @@ import { buildFallbackCouncil } from "@/lib/council/fallback";
 import { getCouncilModelConfig } from "@/lib/council/model";
 import { normalizeCouncilResponse } from "@/lib/council/normalize";
 import { buildCouncilPrompt } from "@/lib/council/prompt";
-import { getScenario } from "@/lib/council/scenarios";
+import { getScenario, type CouncilScenario } from "@/lib/council/scenarios";
 import {
   CouncilRequestSchema,
   CouncilResponseSchema,
@@ -19,9 +19,29 @@ export async function POST(request: Request) {
   const requestData = parsed.success ? parsed.data : {};
   const url = requestData.url?.trim();
   const urlIngest = url ? await ingestWayfairUrl(url) : null;
-  const scenario = getScenario(urlIngest?.scenarioId ?? requestData.scenarioId);
+  const baseScenario = getScenario(urlIngest?.scenarioId ?? requestData.scenarioId);
+  const scenario: CouncilScenario = {
+    ...baseScenario,
+    shopperGoal: requestData.shopperGoal?.trim() || baseScenario.shopperGoal,
+    constraints: requestData.constraints?.length
+      ? requestData.constraints
+          .map((constraint) => constraint.trim())
+          .filter(Boolean)
+      : baseScenario.constraints,
+  };
   const fallback = buildFallbackCouncil(scenario);
   const modelConfig = getCouncilModelConfig();
+
+  if (!requestData.live) {
+    return Response.json({
+      source: "fallback",
+      council: fallback,
+      note:
+        requestData.sourceLabel?.trim() ||
+        "Curated Wayfair blue sofa JSON loaded for the live demo.",
+      urlNote: urlIngest?.note,
+    } satisfies CouncilApiResponse);
+  }
 
   if (!modelConfig) {
     return Response.json({

@@ -16,8 +16,8 @@ export function VerdictPanel({ council }: VerdictPanelProps) {
   return (
     <section className="bg-zinc-950">
       <div className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[0.8fr_1fr]">
-        <article className="rounded-lg border border-[#ff5c28] bg-black p-4">
-          <p className="text-xs uppercase text-[#ff5c28]">Final verdict</p>
+        <article className="rounded-lg border border-[#7f187f] bg-black p-4">
+          <p className="text-xs uppercase text-[#d8b4fe]">Final verdict</p>
           <h2 className="mt-2 text-2xl font-semibold text-white">
             {council.verdict.headline}
           </h2>
@@ -29,7 +29,7 @@ export function VerdictPanel({ council }: VerdictPanelProps) {
           </div>
           <div className="mt-4 h-2 overflow-hidden rounded-sm bg-zinc-800">
             <div
-              className="h-full bg-emerald-400"
+              className="h-full bg-[#7f187f]"
               style={{ width: `${council.verdict.confidence}%` }}
             />
           </div>
@@ -48,7 +48,7 @@ export function VerdictPanel({ council }: VerdictPanelProps) {
                 <p className="mt-2 text-xs leading-5 text-zinc-500">
                   {winner.material}
                 </p>
-                <p className="mt-2 text-xs leading-5 text-sky-200">
+                <p className="mt-2 text-xs leading-5 text-[#d8b4fe]">
                   {winner.fitCheck}
                 </p>
               </div>
@@ -58,7 +58,7 @@ export function VerdictPanel({ council }: VerdictPanelProps) {
 
         <div className="grid gap-4 md:grid-cols-2">
           <article className="rounded-lg border border-zinc-800 bg-black p-4">
-            <h3 className="text-sm font-semibold uppercase text-emerald-300">
+            <h3 className="text-sm font-semibold uppercase text-[#d8b4fe]">
               Why it wins
             </h3>
             <ul className="mt-3 space-y-3">
@@ -71,7 +71,7 @@ export function VerdictPanel({ council }: VerdictPanelProps) {
           </article>
 
           <article className="rounded-lg border border-zinc-800 bg-black p-4">
-            <h3 className="text-sm font-semibold uppercase text-sky-300">
+            <h3 className="text-sm font-semibold uppercase text-[#d8b4fe]">
               Wayfair checks
             </h3>
             <ul className="mt-3 space-y-3">
