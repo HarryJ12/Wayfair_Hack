@@ -308,6 +308,6 @@ Copyright © 2026 Shop Council. All rights reserved.
 
 <div align="center">
 
-**Built during a Boston Tech Week agent hackathon**
+**Built at Beat The Clock Agent Hack**
 
 </div>
