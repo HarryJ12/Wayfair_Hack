@@ -1,4 +1,4 @@
-# Shop Council - AI Shopping Debate
+# Shop Council - AI Shopping Assistants
 
 <div align="center">
 
