@@ -308,6 +308,6 @@ Copyright © 2026 Shop Council. All rights reserved.
 
 <div align="center">
 
-**Built at Beat The Clock Agent Hack**
+**Built at Beat The Clock Agent Hack @ Wayfair HQ**
 
 </div>
