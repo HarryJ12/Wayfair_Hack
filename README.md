@@ -15,7 +15,7 @@
 
 ## Overview
 
-Buying furniture online is stressful. Shoppers are  asking a multitude of questions, including
+Buying furniture online is stressful. Shoppers are asking a multitude of questions:
 
 - Will this fit my room?
 - Is this listing real or sketchy?
